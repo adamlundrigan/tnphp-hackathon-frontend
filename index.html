@@ -16,36 +16,36 @@
 
     <script id="entry-template" type="text/x-handlebars-template">
         <div class="grid-item">
-            <a href="https://twitter.com/{{ author.handle }}/status/{{ id }}" target="_blank">
-                <img src="{{ image }}" style="width: 100%; display: block;">
-                <div class="x-image-hover">
-                    <p>{{ tweet }}</p>
-                    <div class="x-author">
-                        {{#if speaker}}
-                        <div class="pull-right"><img src="arrow_right.png" style="width:32px"></div>
-                        {{/if}}
-                        <a href="https://twitter.com/{{author.handle}}" target="_blank">
-                            {{#if author.avatar}}
-                            <img class="x-author-avatar pull-left" width="48" src="{{ author.avatar }}">
-                            {{/if}}
-                            <div class="x-author-name">{{ author.name }}</div>
-                            <div class="x-author-handle">@{{ author.handle }}</div>
-                        </a>
-                    </div>
+            {{#if image}}
+            <img src="{{ image }}" style="width: 100%; display: block;">
+            {{/if}}
+            <div class="x-image-hover">
+                <p>{{ tweet }}</p>
+                <div class="x-author">
                     {{#if speaker}}
-                    <div class="x-speaker">
-                        <a href="https://twitter.com/{{speaker.handle}}" target="_blank">
-                            {{#if speaker.avatar}}
-                            <img class="x-speaker-avatar pull-right" width="48" src="{{ speaker.avatar }}">
-                            {{/if}}
-                            <div class="x-speaker-name">{{ speaker.name }}</div>
-                            <div class="x-speaker-handle">@{{ speaker.handle }}</div>
-                        </a>
-                    </div>
+                    <div class="pull-right"><img src="arrow_right.png" style="width:32px"></div>
                     {{/if}}
-                    <div class="clearfix"></div>
+                    <a href="https://twitter.com/{{author.handle}}" target="_blank">
+                        {{#if author.avatar}}
+                        <img class="x-author-avatar pull-left" width="48" src="{{ author.avatar }}">
+                        {{/if}}
+                        <div class="x-author-name">{{ author.name }}</div>
+                        <div class="x-author-handle">@{{ author.handle }}</div>
+                    </a>
                 </div>
-            </a>
+                {{#if speaker}}
+                <div class="x-speaker">
+                    <a href="https://twitter.com/{{speaker.handle}}" target="_blank">
+                        {{#if speaker.avatar}}
+                        <img class="x-speaker-avatar pull-right" width="48" src="{{ speaker.avatar }}">
+                        {{/if}}
+                        <div class="x-speaker-name">{{ speaker.name }}</div>
+                        <div class="x-speaker-handle">@{{ speaker.handle }}</div>
+                    </a>
+                </div>
+                {{/if}}
+                <div class="clearfix"></div>
+            </div>
         </div>
     </script>
 
@@ -54,43 +54,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/salvattore/1.0.9/salvattore.min.js"></script>
 
     <script>
-
         var source   = $("#entry-template").html();
         var template = Handlebars.compile(source);
 
         var grid = document.querySelector('#TwitterWall');
 
-        for ( var i = 0; i < 10; i++ ) {
-            var context = {
-                id: "794630769683656704",
-                image: "https://pbs.twimg.com/media/CwcYdu8XgAELbGY.jpg",
-                tweet: "Excellent talk by @afilina! Promoting sound methodology for rewriting legacy apps. Thanks! #tnphp16 /cc @TrueNorthPHP",
-                author: {
-                    handle: "AndrewSCaya",
-                    name: "Andrew Caya",
-                    avatar: "https://pbs.twimg.com/profile_images/772244276822544413/PhMTNqPE_bigger.jpg"
-                },
-                speaker: {
-                    handle: "afilina",
-                    name: "Anna Filina",
-                    avatar: "https://pbs.twimg.com/profile_images/779477256552972288/N76CR6i3_400x400.jpg"
-                }
-            };
-            var html = template(context);
-
-            var item = document.createElement('div');
-            salvattore.prependElements(grid, [item]);
-            item.outerHTML = html;
-        }
-
-//        $(grid).on('mouseenter', '.grid-item', function(e) {
-//            $(e.currentTarget).find('.x-image-hover').show();
-//        });
-//
-//        $(grid).on('mouseleave', '.grid-item', function(e) {
-//            $(e.currentTarget).find('.x-image-hover').hide();
-//        });
-
+        $.get('tweets.json', function(data) {
+            data.forEach(function(row) {
+                var html = template(row);
+                var item = document.createElement('div');
+                salvattore.prependElements(grid, [item]);
+                item.outerHTML = html;
+            });
+        });
     </script>
 
 </body>
