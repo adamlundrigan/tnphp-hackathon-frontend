@@ -16,34 +16,36 @@
 
     <script id="entry-template" type="text/x-handlebars-template">
         <div class="grid-item">
-            <img src="{{ image }}" style="width: 100%; display: block;">
-            <div class="x-image-hover">
-                <p>{{ tweet }}</p>
-                <div class="x-author">
+            <a href="https://twitter.com/{{ author.handle }}/status/{{ id }}" target="_blank">
+                <img src="{{ image }}" style="width: 100%; display: block;">
+                <div class="x-image-hover">
+                    <p>{{ tweet }}</p>
+                    <div class="x-author">
+                        {{#if speaker}}
+                        <div class="pull-right"><img src="arrow_right.png" style="width:32px"></div>
+                        {{/if}}
+                        <a href="https://twitter.com/{{author.handle}}" target="_blank">
+                            {{#if author.avatar}}
+                            <img class="x-author-avatar pull-left" width="48" src="{{ author.avatar }}">
+                            {{/if}}
+                            <div class="x-author-name">{{ author.name }}</div>
+                            <div class="x-author-handle">@{{ author.handle }}</div>
+                        </a>
+                    </div>
                     {{#if speaker}}
-                    <div class="pull-right"><img src="arrow_right.png" style="width:32px"></div>
+                    <div class="x-speaker">
+                        <a href="https://twitter.com/{{speaker.handle}}" target="_blank">
+                            {{#if speaker.avatar}}
+                            <img class="x-speaker-avatar pull-right" width="48" src="{{ speaker.avatar }}">
+                            {{/if}}
+                            <div class="x-speaker-name">{{ speaker.name }}</div>
+                            <div class="x-speaker-handle">@{{ speaker.handle }}</div>
+                        </a>
+                    </div>
                     {{/if}}
-                    <a href="https://twitter.com/{{author.handle}}" target="_blank">
-                        {{#if author.avatar}}
-                        <img class="x-author-avatar pull-left" width="48" src="{{ author.avatar }}">
-                        {{/if}}
-                        <div class="x-author-name">{{ author.name }}</div>
-                        <div class="x-author-handle">@{{ author.handle }}</div>
-                    </a>
+                    <div class="clearfix"></div>
                 </div>
-                {{#if speaker}}
-                <div class="x-speaker">
-                    <a href="https://twitter.com/{{speaker.handle}}" target="_blank">
-                        {{#if speaker.avatar}}
-                        <img class="x-speaker-avatar pull-right" width="48" src="{{ speaker.avatar }}">
-                        {{/if}}
-                        <div class="x-speaker-name">{{ speaker.name }}</div>
-                        <div class="x-speaker-handle">@{{ speaker.handle }}</div>
-                    </a>
-                </div>
-                {{/if}}
-                <div class="clearfix"></div>
-            </div>
+            </a>
         </div>
     </script>
 
@@ -60,6 +62,7 @@
 
         for ( var i = 0; i < 10; i++ ) {
             var context = {
+                id: "794630769683656704",
                 image: "https://pbs.twimg.com/media/CwcYdu8XgAELbGY.jpg",
                 tweet: "Excellent talk by @afilina! Promoting sound methodology for rewriting legacy apps. Thanks! #tnphp16 /cc @TrueNorthPHP",
                 author: {
@@ -68,9 +71,9 @@
                     avatar: "https://pbs.twimg.com/profile_images/772244276822544413/PhMTNqPE_bigger.jpg"
                 },
                 speaker: {
-                    handle: "AndrewSCaya",
-                    name: "Andrew Caya",
-                    avatar: "https://pbs.twimg.com/profile_images/772244276822544413/PhMTNqPE_bigger.jpg"
+                    handle: "afilina",
+                    name: "Anna Filina",
+                    avatar: "https://pbs.twimg.com/profile_images/779477256552972288/N76CR6i3_400x400.jpg"
                 }
             };
             var html = template(context);
