@@ -24,7 +24,9 @@
                     <div class="pull-right"><img src="arrow_right.png" style="width:32px"></div>
                     {{/if}}
                     <a href="https://twitter.com/{{author.handle}}" target="_blank">
+                        {{#if author.avatar}}
                         <img class="x-author-avatar pull-left" width="48" src="{{ author.avatar }}">
+                        {{/if}}
                         <div class="x-author-name">{{ author.name }}</div>
                         <div class="x-author-handle">@{{ author.handle }}</div>
                     </a>
@@ -32,7 +34,9 @@
                 {{#if speaker}}
                 <div class="x-speaker">
                     <a href="https://twitter.com/{{speaker.handle}}" target="_blank">
+                        {{#if speaker.avatar}}
                         <img class="x-speaker-avatar pull-right" width="48" src="{{ speaker.avatar }}">
+                        {{/if}}
                         <div class="x-speaker-name">{{ speaker.name }}</div>
                         <div class="x-speaker-handle">@{{ speaker.handle }}</div>
                     </a>
